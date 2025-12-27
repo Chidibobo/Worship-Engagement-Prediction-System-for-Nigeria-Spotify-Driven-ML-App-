@@ -1,30 +1,31 @@
 import requests
-from config.setup import Config
-from config.logger import get_logger
-
+from src.config.setup import Config
+from src.config.logger import get_logger
+from src.data_ingestion.auth import system_auth
 logger = get_logger(__name__)
 
-def fetch_top_artist_playlists(artist_id, access_token):
+def fetch_top_artist_playlists(artist_id, market):
     """
     Fetch artist information from Spotify API
     
     Args:
         artist_id (str): Spotify artist ID
-        access_token (str): Valid Spotify access token
         
     Returns:
         dict: Artist data or None if failed
     """
     try:
+        access_token = system_auth.get_access_token()
+
         logger.info(f"Fetching artist data for artist_id: {artist_id}")
-        url = f"{base_url}/{artist_id}"
+        url = f"{system_auth.base_url}/{artist_id}/top-tracks?{market}"
         headers = {
             "Authorization": f"Bearer {access_token}"
         }
         response = requests.get(url, headers=headers)
         
         if response.status_code == 200:
-            logger.info(f"Successfully fetched artist data for {artist_id}")
+            logger.info(f"Successfully fetched top artist data for {artist_id}")
             return response.json()
         else:
             logger.error(f"Failed to fetch artist {artist_id}: {response.status_code} {response.text}")
