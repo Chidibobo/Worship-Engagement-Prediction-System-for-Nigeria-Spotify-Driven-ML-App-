@@ -10,6 +10,7 @@ class Auth:
         self.client_id = Config.CLIENT_ID
         self.client_secret = Config.CLIENT_SECRET
         self.token_url = Config.TOKEN_URL
+        self.base_url = Config.BASE_URL
 
     def get_access_token(self):
         logger.info("Attempting to get Spotify access token")
@@ -32,3 +33,4 @@ class Auth:
         except requests.exceptions.RequestException as e:
             logger.error(f"Request exception while getting access token: {str(e)}")
             raise
+

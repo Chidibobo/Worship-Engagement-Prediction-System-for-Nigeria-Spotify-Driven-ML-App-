@@ -17,7 +17,7 @@ def fetch_artist(artist_id, access_token):
     """
     try:
         logger.info(f"Fetching artist data for artist_id: {artist_id}")
-        url = f"https://api.spotify.com/v1/artists/{artist_id}"
+        url = f"{base_url}/{artist_id}"
         headers = {
             "Authorization": f"Bearer {access_token}"
         }
