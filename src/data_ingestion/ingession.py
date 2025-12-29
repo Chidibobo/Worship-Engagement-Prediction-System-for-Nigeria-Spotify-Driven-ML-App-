@@ -32,26 +32,34 @@ def save_artist(record):
 
         
 
-def save_artist_tracks(record,):
-    conn = get_connection()
-    cursor = conn.cursor()
+def save_artist_tracks(record):
+    try:
+        logger.info("Attempting to save records to DB")
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    cursor.execute("""
-        INSERT OR IGNORE INTO tracks (
-            track_id, artist_id, name, duration_ms, explicit, release_date
-        )
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (
-        record["track_id"],
-        record["artist_id"],
-        record["name"],
-        record["duration_ms"],
-        record["explicit"],
-        record["release_date"]
-    ))
+        cursor.execute("""
+            INSERT OR IGNORE INTO tracks (
+                track_id, artist_id, name, duration_ms, explicit, release_date
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (
+            record["track_id"],
+            record["artist_id"],
+            record["name"],
+            record["duration_ms"],
+            record["explicit"],
+            record["release_date"]
+        ))
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        logger.info("Successfully saved record to DB")
+
+    except Exception as e:
+        logger.error(f"Error saving to DB: {e}")
+
+    finally:
+        conn.close()
 
 def save_artist_metrics(record):
     try:
@@ -63,7 +71,7 @@ def save_artist_metrics(record):
             INSERT OR IGNORE INTO artist_weekly_metrics (
                 artist_id, week_start, followers, popularity, collected_at
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         """, (
             record["artist_id"],
             record["week_start"],

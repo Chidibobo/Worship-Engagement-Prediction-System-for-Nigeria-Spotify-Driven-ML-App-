@@ -19,7 +19,7 @@ def fetch_top_artist_playlists(artist_id:str, market:str):
         access_token = system_auth.get_access_token()
 
         logger.info(f"Fetching artist data for artist_id: {artist_id}")
-        url = f"{system_auth.base_url}/{artist_id}/top-tracks?{market}"
+        url = f"{system_auth.base_url}/{artist_id}/top-tracks?market={market}"
         headers = {
             "Authorization": f"Bearer {access_token}"
         }
