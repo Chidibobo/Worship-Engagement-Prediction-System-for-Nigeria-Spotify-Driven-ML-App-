@@ -3,9 +3,11 @@ from datetime import datetime, timezone, timedelta
 import json
 logger = get_logger(__name__)
 
-timestamp = datetime.now(timezone.utc).isoformat()
-week_start = timestamp - timedelta(days=timestamp.weekday())
+timestamp_cal = datetime.now(timezone.utc)
+week_start = timestamp_cal - timedelta(days=timestamp_cal.weekday())
 week_start = week_start.date()
+
+timestamp = datetime.now(timezone.utc).isoformat()
 
 def tidy_artist_data(artist_data, source:str):
     try:
@@ -36,12 +38,11 @@ def tidy_tracks_data(tracks_data,artist_id:str):
                 "explicit":track['explicit'],
                 "release_date":track['album']['release_date']
             }
-
             tracks.append(record)
         logger.info(f"Successfully tidied Spotify tracks data")
         return tracks
     except Exception as e:
-        logger.error(f"Failed to tidy up Spotify tracks data")
+        logger.error(f"Failed to tidy up Spotify tracks data: {str(e)}")
         return None
 
 
@@ -58,5 +59,5 @@ def tidy_metrics(artist_data):
         logger.info(f"Succeccfully tidied relevant metrics")
         return record
     except Exception as e:
-        logger.error(f"Failed to tidy up relevant metrics")    
+        logger.error(f"Failed to tidy up relevant metrics: {str(e)}")    
         return None
