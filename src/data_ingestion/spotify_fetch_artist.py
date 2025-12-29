@@ -10,7 +10,6 @@ def fetch_artist(artist_id:str):
     
     Args:
         artist_id (str): Spotify artist ID
-        access_token (str): Valid Spotify access token
         
     Returns:
         dict: Artist data or None if failed
