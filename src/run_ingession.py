@@ -61,10 +61,10 @@ def ingession(artist_id:str, market:str, source:str):
 
 if __name__ == "__main__":
     
-    #from src.storage.init_db import init_db
+    from src.storage.init_db import init_db
     
-    # Initialize database 
-    #init_db()
+    #Initialize database 
+    init_db()
     gospel_df = pd.read_csv("data/Gospel_artist_ids.csv")
     for i in gospel_df['id']:
         # Run ingestion
