@@ -209,3 +209,8 @@ __marimo__/
 # Application Logs
 logs/
 *.log
+
+# Database files
+*.db
+*.db-journal
+data/*.db
