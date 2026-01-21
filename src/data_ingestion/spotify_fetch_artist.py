@@ -1,23 +1,24 @@
 import requests
-from config.logger import get_logger
-
+from src.config.logger import get_logger
+from src.data_ingestion.auth import system_auth
 logger = get_logger(__name__)
 
 
-def fetch_artist(artist_id, access_token):
+def fetch_artist(artist_id:str):
     """
     Fetch artist information from Spotify API
     
     Args:
         artist_id (str): Spotify artist ID
-        access_token (str): Valid Spotify access token
         
     Returns:
         dict: Artist data or None if failed
     """
     try:
+        access_token = system_auth.get_access_token()
+
         logger.info(f"Fetching artist data for artist_id: {artist_id}")
-        url = f"https://api.spotify.com/v1/artists/{artist_id}"
+        url = f"{system_auth.base_url}/{artist_id}"
         headers = {
             "Authorization": f"Bearer {access_token}"
         }
